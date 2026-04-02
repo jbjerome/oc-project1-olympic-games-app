@@ -1,3 +1,12 @@
-<div class="center">
-  <div>{{ title }}</div>
+<div>
+  <div class="center">
+    <div>{{ title }}</div>
+  </div>
+  @if (stats.length > 0) {
+    <div class="split">
+      @for (item of stats; track item.title) {
+        <app-stat-line [title]="item.title" [value]="item.value" />
+      }
+    </div>
+  }
 </div>

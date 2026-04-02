@@ -1,12 +1,5 @@
 <div>
-  <div>
-    <app-header [title]="titlePage" />
-    <div class="split">
-      <app-stat-line title="Number of entries" [value]="totalEntries" />
-      <app-stat-line title="Number of medals" [value]="totalMedals" />
-      <app-stat-line title="Number of athletes" [value]="totalAthletes" />
-    </div>
-  </div>
+  <app-header [title]="titlePage" [stats]="stats" />
   <app-country-chart [years]="years" [medals]="medals"></app-country-chart>
   <div class="center">
     <a routerLink="/">Go back</a>

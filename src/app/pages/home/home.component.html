@@ -1,12 +1,6 @@
 <h2>Olympic games app</h2>
 <hr/>
 <div>
-  <div>
-    <app-header [title]="titlePage" />
-    <div class="split">
-      <app-stat-line title="Number of countries" [value]="totalCountries" />
-      <app-stat-line title="Number of JOs" [value]="totalJOs" />
-    </div>
-  </div>
+  <app-header [title]="titlePage" [stats]="stats" />
   <app-medal-chart [countries]="countries" [medals]="medals" (countryClick)="onCountryClick($event)"></app-medal-chart>
 </div>

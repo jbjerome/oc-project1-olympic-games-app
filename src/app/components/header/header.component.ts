@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {StatLine} from "../../models/statline.model";
 
 @Component({
   selector: 'app-header',
@@ -8,4 +9,5 @@ import {Component, Input} from '@angular/core';
 
 export class HeaderComponent {
   @Input() title: string = '';
+  @Input() stats: StatLine[] = [];
 }

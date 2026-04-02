@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Olympic} from "../../models/olympic.model";
 import {DataService} from "../../services/data.service";
+import {StatLine} from "../../models/statline.model";
 
 @Component({
   selector: 'app-country',
@@ -11,9 +12,7 @@ import {DataService} from "../../services/data.service";
 
 export class CountryComponent implements OnInit {
   public titlePage: string = '';
-  public totalEntries: any = 0;
-  public totalMedals: number = 0;
-  public totalAthletes: number = 0;
+  public stats: StatLine[] = [];
   public years: number[] = [];
   public medals: string[] = [];
 
@@ -33,12 +32,27 @@ export class CountryComponent implements OnInit {
           return;
         }
         this.titlePage = country.country;
-        this.totalEntries = country.participations.length;
         this.years = country.participations.map((p) => p.year);
         this.medals = country.participations.map((p) => p.medalsCount.toString());
-        this.totalMedals = country.participations.reduce((acc, p) => acc + p.medalsCount, 0);
-        this.totalAthletes = country.participations.reduce((acc, p) => acc + p.athleteCount, 0);
+        this.stats = this.buildStats(country);
       }
     });
+  }
+
+  buildStats(data: Olympic): StatLine[] {
+    return [
+      {
+        title: "Total of entries",
+        value: data.participations.length
+      },
+      {
+        title: "Total of medals",
+        value: data.participations.reduce((acc, p) => acc + p.medalsCount, 0)
+      },
+      {
+        title: "Total of athletes",
+        value: data.participations.reduce((acc, p) => acc + p.athleteCount, 0)
+      }
+    ];
   }
 }
