@@ -1,0 +1,51 @@
+import {Component, OnChanges, Input, Output, EventEmitter} from "@angular/core";
+import Chart from "chart.js/auto";
+
+@Component({
+  selector: 'app-medal-chart',
+  templateUrl: './medal-chart.component.html',
+  styleUrls: ['./medal-chart.component.scss'],
+})
+
+export class MedalChartComponent implements OnChanges {
+  @Input() countries: string[] = [];
+  @Input() medals: number[] = [];
+  @Output() countryClick = new EventEmitter<string>();
+
+  private chart?: Chart<'pie', number[], string>;
+
+  ngOnChanges() {
+    if (this.countries.length > 0 && this.medals.length > 0) {
+      this.buildPieChart();
+    }
+  }
+
+  buildPieChart() {
+    const chart = new Chart("DashboardPieChart", {
+      type: 'pie',
+      data: {
+        labels: this.countries,
+        datasets: [{
+          label: 'Medals',
+          data: this.medals,
+          backgroundColor: ['#0b868f', '#adc3de', '#7a3c53', '#8f6263', 'orange', '#94819d'],
+          hoverOffset: 4
+        }],
+      },
+      options: {
+        aspectRatio: 2.5,
+        onClick: (e) => {
+          if (e.native) {
+            const points = chart.getElementsAtEventForMode(e.native, 'point', { intersect: true }, true)
+            if (points.length) {
+              const firstPoint = points[0];
+              const countryName = chart.data.labels ? chart.data.labels[firstPoint.index] : '';
+              this.countryClick.emit(countryName);
+            }
+          }
+        }
+      }
+    });
+    this.chart = chart;
+  }
+}

@@ -1,30 +1,14 @@
 <div>
   <div>
-    <div class="center">
-      <div>{{ titlePage }}</div>
-    </div>
+    <app-header [title]="titlePage" />
     <div class="split">
-      <div>
-        <p>Number of entries</p>
-        <p>{{ totalEntries }}</p>
-      </div>
-      <div>
-        <p>Total Number of medals</p>
-        <p>{{ totalMedals }}</p>
-      </div>
-      <div>
-        <p>Total Number of athletes</p>
-        <p>{{ totalAthletes }}</p>
-      </div>
+      <app-stat-line title="Number of entries" [value]="totalEntries" />
+      <app-stat-line title="Number of medals" [value]="totalMedals" />
+      <app-stat-line title="Number of athletes" [value]="totalAthletes" />
     </div>
   </div>
-  <div class="chart-container wrapper-container">
-    <div class="container">
-      <canvas id="countryChart">{{ lineChart }}</canvas>
-      <h2>Date</h2>
-    </div>
-  </div>
+  <app-country-chart [years]="years" [medals]="medals"></app-country-chart>
   <div class="center">
-    <a routerLink="">Go back</a>
+    <a routerLink="/">Go back</a>
   </div>
 </div>
