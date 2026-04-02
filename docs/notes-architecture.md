@@ -59,3 +59,31 @@ La page Country est en erreur si le pays n'est pas dans le jeu de données.
 Ex : http://localhost:4200/country/Test
 
 Solution : il faut gérer cette erreur dans le composant `country` pour afficher un message d'erreur ou rediriger vers une page 404.
+
+## Architecture cible
+
+### 1 . Arborescence
+
+```
+src/app/
+  ├── components/             <- Composants UI
+  │     ├── header/           <- Composant Header
+  │     ├── medal-chart/      <- Composant Chart Pie (médailles par pays)
+  │     └── country-chart/    <- Composant Chart Line (médailles par année)
+  │
+  ├── pages/                  <- Pages
+  │     ├── home/             <- Dashbaord
+  │     ├── country/          <- Country Detail
+  │     └── not-found/        <- 404
+  │
+  ├── models/                 <- Interfaces
+  │     ├── olympic.ts        <- Interface de l'objet Olympic
+  │     └── participation.ts  <- Interface de l'objet Participation
+  │
+  ├── services/               <- Services
+  │     └── data.service.ts   <- Data service
+  │
+  ├── app.module.ts
+  ├── app.component.ts
+  └── app-routing.module.ts
+```
