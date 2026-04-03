@@ -12,6 +12,7 @@ import { StatLineComponent } from "./components/stat-line/stat-line.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { EmptyStateComponent } from "./components/empty-state/empty-state.component";
 import { TopBarComponent } from "./components/top-bar/top-bar.component";
+import { LoaderComponent } from "./components/loader/loader.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { TopBarComponent } from "./components/top-bar/top-bar.component";
     MedalChartComponent,
     StatLineComponent,
     EmptyStateComponent,
+    LoaderComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideHttpClient()],

@@ -17,6 +17,7 @@ export class CountryComponent implements OnInit {
   public medals: string[] = [];
   public athletes: string[] = [];
   public cities: string[] = [];
+  public loading = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,6 +27,7 @@ export class CountryComponent implements OnInit {
 
   ngOnInit() {
     const countryId = +this.route.snapshot.params['countryId'];
+    this.dataService.getLoading().subscribe((loading) => this.loading = loading);
     this.dataService.getOlympics().subscribe((data: Olympic[]) => {
       if (data && data.length > 0) {
         const country = data.find((o) => o.id === countryId);

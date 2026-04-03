@@ -16,10 +16,12 @@ export class HomeComponent implements OnInit {
   public titlePage: string = "Medals per Country";
   public stats: StatLine[] = [];
   public countryIds: number[] = [];
+  public loading = true;
 
-  constructor(private router: Router, private dataService:DataService) { }
+  constructor(private router: Router, private dataService: DataService) {}
 
   ngOnInit() {
+    this.dataService.getLoading().subscribe((loading) => this.loading = loading);
     this.dataService.getOlympics().subscribe((data: Olympic[]) => {
       if (data && data.length > 0) {
         this.countries = data.map((i: any) => i.country);
@@ -41,4 +43,3 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['country', countryId]);
   }
 }
-
