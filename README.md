@@ -1,29 +1,83 @@
-# OlympicGamesStarter
+# Olympic Games App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.6.
+Application Angular de visualisation des données des Jeux Olympiques. Affiche les statistiques par pays (médailles, athlètes) avec des graphiques interactifs Chart.js.
 
-Don't forget to install your node_modules before starting (`npm install`).
+## Prérequis
 
-## Development server
+- Node.js
+- Angular CLI 18
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Installation
+
+```bash
+npm install
+```
+
+## Lancement
+
+```bash
+ng serve
+```
+
+Naviguer vers `http://localhost:4200/`.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+ng build
+```
 
-## Where to start
+Les fichiers de build sont dans le dossier `dist/`.
 
-As you can see, an architecture has already been defined for the project. It is just a suggestion, you can choose to use your own. The predefined architecture includes (in addition to the default angular architecture) the following:
+## Architecture
 
-- `components` folder: contains every reusable components
-- `pages` folder: contains components used for routing
-- `core` folder: contains the business logic (`services` and `models` folders)
+```
+src/app/
+├── components/          # Composants réutilisables
+│   ├── country-chart/   # Graphique bar chart (médailles/athlètes par édition)
+│   ├── empty-state/     # Affichage état vide
+│   ├── header/          # En-tête avec titre et statistiques
+│   ├── medal-chart/     # Graphique pie chart (médailles par pays)
+│   ├── stat-line/       # Ligne de statistique (titre/valeur)
+│   └── top-bar/         # Barre de navigation avec bouton optionnel
+├── models/              # Interfaces TypeScript
+│   ├── olympic.ts       # Olympic (pays + participations)
+│   ├── participation.ts # Participation (année, ville, médailles, athlètes)
+│   └── statline.model.ts
+├── pages/               # Pages (routing)
+│   ├── home/            # Page d'accueil (pie chart global)
+│   ├── country/         # Détail pays (bar chart par édition)
+│   └── not-found/       # Page 404
+└── services/
+    └── data.service.ts  # Service de données
+```
 
-I suggest you to start by understanding this starter code. Pay an extra attention to the `app-routing.module.ts` and the `olympic.service.ts`.
+## Routes
 
-Once mastered, you should continue by creating the typescript interfaces inside the `models` folder. As you can see I already created two files corresponding to the data included inside the `olympic.json`. With your interfaces, improve the code by replacing every `any` by the corresponding interface.
+| Route | Page                                                |
+|---|-----------------------------------------------------|
+| `/` | Accueil - répartition des médailles par pays        |
+| `/country/:countryId` | Détail d'un pays, médailles et athlètes par édition |
+| `**` | Page 404                                            |
 
-You're now ready to implement the requested features.
+## Stack technique
 
-Good luck!
+- **Angular** 18.0.6
+- **Chart.js** 4.2.1
+- **RxJS** 7.8.0
+- **TypeScript** 5.4.2
+
+## Evolution
+
+- Connexion à une API REST (donnée actuelement mocké) : 
+
+il suffit de remplacer la valeur de la propriété `olympicUrl` dans `data.service.ts` par l'URL de l'endpoint.
+
+
+
+## Accessibilite
+
+- Contrastes AA (WCAG 2.1)
+- Focus visible sur tous les elements interactifs
+- `aria-label` sur la navigation et les boutons
+- Descriptions textuelles des graphiques (sr-only)
