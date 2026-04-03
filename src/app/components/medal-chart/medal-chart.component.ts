@@ -10,7 +10,8 @@ import Chart from "chart.js/auto";
 export class MedalChartComponent implements OnChanges {
   @Input() countries: string[] = [];
   @Input() medals: number[] = [];
-  @Output() countryClick = new EventEmitter<string>();
+  @Input() countryIds: number[] = [];
+  @Output() countryClick = new EventEmitter<number>();
 
   private chart?: Chart<'pie', number[], string>;
 
@@ -39,8 +40,8 @@ export class MedalChartComponent implements OnChanges {
             const points = chart.getElementsAtEventForMode(e.native, 'point', { intersect: true }, true)
             if (points.length) {
               const firstPoint = points[0];
-              const countryName = chart.data.labels ? chart.data.labels[firstPoint.index] : '';
-              this.countryClick.emit(countryName);
+              const countryId = this.countryIds[firstPoint.index];
+              this.countryClick.emit(countryId);
             }
           }
         }

@@ -15,6 +15,7 @@ export class HomeComponent implements OnInit {
   public medals: number[] = [];
   public titlePage: string = "Medals per Country";
   public stats: StatLine[] = [];
+  public countryIds: number[] = [];
 
   constructor(private router: Router, private dataService:DataService) { }
 
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit {
       if (data && data.length > 0) {
         this.countries = data.map((i: any) => i.country);
         this.medals = data.map((o: Olympic) => o.participations.reduce((acc, p) => acc + p.medalsCount, 0));
+        this.countryIds = data.map((o: Olympic) => o.id);
         this.stats = this.buildStats(data);
       }
     });
@@ -35,8 +37,8 @@ export class HomeComponent implements OnInit {
     ];
   }
 
-  onCountryClick(countryName: string):void {
-    this.router.navigate(['country', countryName]);
+  onCountryClick(countryId: number): void {
+    this.router.navigate(['country', countryId]);
   }
 }
 

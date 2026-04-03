@@ -2,5 +2,9 @@
 <hr/>
 <div>
   <app-header [title]="titlePage" [stats]="stats" />
-  <app-medal-chart [countries]="countries" [medals]="medals" (countryClick)="onCountryClick($event)"></app-medal-chart>
+  <app-medal-chart
+    [countries]="countries"
+    [medals]="medals"
+    [countryIds]="countryIds"
+    (countryClick)="onCountryClick($event)" />
 </div>

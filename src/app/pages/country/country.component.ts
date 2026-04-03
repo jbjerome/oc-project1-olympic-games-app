@@ -23,10 +23,10 @@ export class CountryComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const countryName = this.route.snapshot.params['countryName'];
+    const countryId = +this.route.snapshot.params['countryId'];
     this.dataService.getOlympics().subscribe((data: Olympic[]) => {
       if (data && data.length > 0) {
-        const country = data.find((o) => o.country === countryName);
+        const country = data.find((o) => o.id === countryId);
         if (!country) {
           this.router.navigate(['not-found']);
           return;
