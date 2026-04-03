@@ -2,9 +2,13 @@
 <hr/>
 <div>
   <app-header [title]="titlePage" [stats]="stats" />
+  @if (countries.length > 0) {
   <app-medal-chart
     [countries]="countries"
     [medals]="medals"
     [countryIds]="countryIds"
     (countryClick)="onCountryClick($event)" />
+  } @else {
+    <app-empty-state message="No country found" />
+  }
 </div>

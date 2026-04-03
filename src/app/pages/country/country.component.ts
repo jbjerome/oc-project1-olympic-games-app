@@ -15,6 +15,8 @@ export class CountryComponent implements OnInit {
   public stats: StatLine[] = [];
   public years: number[] = [];
   public medals: string[] = [];
+  public athletes: string[] = [];
+  public cities: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -32,8 +34,10 @@ export class CountryComponent implements OnInit {
           return;
         }
         this.titlePage = country.country;
+        this.cities = country.participations.map((p) => p.city);
         this.years = country.participations.map((p) => p.year);
         this.medals = country.participations.map((p) => p.medalsCount.toString());
+        this.athletes = country.participations.map((p) => p.athleteCount.toString());
         this.stats = this.buildStats(country);
       }
     });

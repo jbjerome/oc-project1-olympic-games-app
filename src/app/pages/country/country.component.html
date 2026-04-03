@@ -1,6 +1,14 @@
 <div>
   <app-header [title]="titlePage" [stats]="stats" />
-  <app-country-chart [years]="years" [medals]="medals"></app-country-chart>
+  @if (medals.length > 0) {
+    <app-country-chart
+      [years]="years"
+      [medals]="medals"
+      [athletes]="athletes"
+      [cities]="cities" />
+  } @else {
+    <app-empty-state message="No data for this country" />
+  }
   <div class="center">
     <a routerLink="/">Go back</a>
   </div>

@@ -10,6 +10,7 @@ import { CountryChartComponent } from "./components/country-chart/country-chart.
 import { MedalChartComponent } from "./components/medal-chart/medal-chart.component";
 import { StatLineComponent } from "./components/stat-line/stat-line.component";
 import { HeaderComponent } from "./components/header/header.component";
+import { EmptyStateComponent } from "./components/empty-state/empty-state.component";
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { HeaderComponent } from "./components/header/header.component";
     CountryChartComponent,
     MedalChartComponent,
     StatLineComponent,
+    EmptyStateComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [provideHttpClient()],
