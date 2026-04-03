@@ -1,0 +1,7 @@
+<nav class="top-bar" aria-label="Navigation principale">
+  <h2><a routerLink="/" aria-label="Retour à l'accueil - Olympic games app">Olympic games app</a></h2>
+  @if (buttonText && buttonRoute) {
+    <a class="btn" [routerLink]="buttonRoute" [attr.aria-label]="buttonText">{{ buttonText }}</a>
+  }
+</nav>
+<hr/>

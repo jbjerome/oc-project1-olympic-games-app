@@ -11,12 +11,14 @@ import { MedalChartComponent } from "./components/medal-chart/medal-chart.compon
 import { StatLineComponent } from "./components/stat-line/stat-line.component";
 import { HeaderComponent } from "./components/header/header.component";
 import { EmptyStateComponent } from "./components/empty-state/empty-state.component";
+import { TopBarComponent } from "./components/top-bar/top-bar.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     NotFoundComponent,
+    TopBarComponent,
     HeaderComponent,
     CountryComponent,
     CountryChartComponent,

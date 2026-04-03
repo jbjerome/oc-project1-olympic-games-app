@@ -1,0 +1,18 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 500px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 767px) {
+  .chart-wrapper {
+    height: 400px;
+  }
+}

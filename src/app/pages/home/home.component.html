@@ -1,14 +1,17 @@
-<h2>Olympic games app</h2>
-<hr/>
-<div>
-  <app-header [title]="titlePage" [stats]="stats" />
-  @if (countries.length > 0) {
-  <app-medal-chart
-    [countries]="countries"
-    [medals]="medals"
-    [countryIds]="countryIds"
-    (countryClick)="onCountryClick($event)" />
-  } @else {
-    <app-empty-state message="No country found" />
-  }
+<app-top-bar />
+<div class="page-grid">
+  <div class="sidebar">
+    <app-header [title]="titlePage" [stats]="stats" />
+  </div>
+  <div class="main-content">
+    @if (countries.length > 0) {
+    <app-medal-chart
+      [countries]="countries"
+      [medals]="medals"
+      [countryIds]="countryIds"
+      (countryClick)="onCountryClick($event)" />
+    } @else {
+      <app-empty-state message="No country found" />
+    }
+  </div>
 </div>

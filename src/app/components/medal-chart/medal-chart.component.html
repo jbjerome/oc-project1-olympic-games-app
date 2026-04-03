@@ -1,1 +1,4 @@
-<canvas id="DashboardPieChart"></canvas>
+<div class="chart-wrapper">
+  <canvas #chartCanvas role="img" [attr.aria-label]="chartDescription"></canvas>
+</div>
+<p class="sr-only">{{ chartDescription }}</p>

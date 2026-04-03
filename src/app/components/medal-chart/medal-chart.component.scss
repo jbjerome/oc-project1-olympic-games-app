@@ -1,1 +1,12 @@
-#DashboardPieChart {}
+:host {
+  display: block;
+  width: 100%;
+}
+
+.chart-wrapper {
+  position: relative;
+  height: 55vh;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
+}

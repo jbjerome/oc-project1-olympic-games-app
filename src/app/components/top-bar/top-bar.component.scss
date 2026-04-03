@@ -1,0 +1,27 @@
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  h2 {
+    margin: 0;
+
+    > a {
+      color: initial;
+      text-decoration: none;
+    }
+  }
+}
+
+.btn {
+  padding: 8px 16px;
+  background: #0a7078;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+
+  &:hover {
+    opacity: 0.85;
+  }
+}

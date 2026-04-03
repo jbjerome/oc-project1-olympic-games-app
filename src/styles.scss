@@ -1,4 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+
+*:focus-visible {
+    outline: 3px solid #0a7078;
+    outline-offset: 2px;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+body {
+  font-family: 'Arial', sans-serif;
+  font-size: 16px;
+}
+
 .heading {
     flex-direction: column;
 }
@@ -6,7 +28,32 @@
 .split {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
     margin: 5px;
+}
+
+.page-grid {
+    display: grid;
+    grid-template-columns: 4fr 8fr;
+    gap: 24px;
+    align-items: start;
+}
+
+@media screen and (max-width: 1199px) {
+    .page-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .page-grid {
+        gap: 16px;
+    }
+
+    .split {
+        flex-direction: column;
+        align-items: center;
+    }
 }

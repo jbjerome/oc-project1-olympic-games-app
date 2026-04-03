@@ -1,4 +1,4 @@
-import {Component, OnChanges, Input, Output, EventEmitter} from "@angular/core";
+import {Component, OnChanges, OnDestroy, Input, Output, EventEmitter, ViewChild, ElementRef} from "@angular/core";
 import Chart from "chart.js/auto";
 
 @Component({
@@ -7,12 +7,14 @@ import Chart from "chart.js/auto";
   styleUrls: ['./medal-chart.component.scss'],
 })
 
-export class MedalChartComponent implements OnChanges {
+export class MedalChartComponent implements OnChanges, OnDestroy {
   @Input() countries: string[] = [];
   @Input() medals: number[] = [];
   @Input() countryIds: number[] = [];
   @Output() countryClick = new EventEmitter<number>();
+  @ViewChild('chartCanvas', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
 
+  chartDescription = '';
   private chart?: Chart<'pie', number[], string>;
 
   ngOnChanges() {
@@ -22,19 +24,26 @@ export class MedalChartComponent implements OnChanges {
   }
 
   buildPieChart() {
-    const chart = new Chart("DashboardPieChart", {
+    if (this.chart) {
+      this.chart.destroy();
+    }
+    this.chartDescription = this.countries
+      .map((country, i) => `${country}: ${this.medals[i]} médailles`)
+      .join(', ');
+    const chart = new Chart(this.chartCanvas.nativeElement, {
       type: 'pie',
       data: {
         labels: this.countries,
         datasets: [{
           label: 'Medals',
           data: this.medals,
-          backgroundColor: ['#0b868f', '#adc3de', '#7a3c53', '#8f6263', 'orange', '#94819d'],
+          backgroundColor: ['#0a7078', '#adc3de', '#7a3c53', '#8f6263', 'orange', '#94819d'],
           hoverOffset: 4
         }],
       },
       options: {
-        aspectRatio: 2.5,
+        responsive: true,
+        maintainAspectRatio: false,
         onClick: (e) => {
           if (e.native) {
             const points = chart.getElementsAtEventForMode(e.native, 'point', { intersect: true }, true)
@@ -48,5 +57,9 @@ export class MedalChartComponent implements OnChanges {
       }
     });
     this.chart = chart;
+  }
+
+  ngOnDestroy() {
+    this.chart?.destroy();
   }
 }

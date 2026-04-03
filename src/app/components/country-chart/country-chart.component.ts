@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges} from "@angular/core";
+import {Component, Input, OnChanges, OnDestroy, ViewChild, ElementRef} from "@angular/core";
 import Chart from "chart.js/auto";
 
 @Component({
@@ -7,12 +7,14 @@ import Chart from "chart.js/auto";
   styleUrls: ['./country-chart.component.scss'],
 })
 
-export class CountryChartComponent implements OnChanges {
+export class CountryChartComponent implements OnChanges, OnDestroy {
   @Input() years: number[] = [];
   @Input() medals: string[] = [];
   @Input() cities: string[] = [];
   @Input() athletes: string[] = [];
+  @ViewChild('chartCanvas', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
 
+  chartDescription = '';
   private lineChart?: Chart<'bar', string[], number>;
 
   ngOnChanges() {
@@ -22,7 +24,13 @@ export class CountryChartComponent implements OnChanges {
   }
 
   buildLineChart() {
-    this.lineChart = new Chart("countryChart", {
+    if (this.lineChart) {
+      this.lineChart.destroy();
+    }
+    this.chartDescription = this.years
+      .map((year, i) => `${this.cities[i]} ${year}: ${this.medals[i]} médailles, ${this.athletes[i]} athlètes`)
+      .join(', ');
+    this.lineChart = new Chart(this.chartCanvas.nativeElement, {
       type: 'bar',
       data: {
         labels: this.years,
@@ -30,7 +38,7 @@ export class CountryChartComponent implements OnChanges {
           {
             label: "Medals",
             data: this.medals,
-            backgroundColor: '#0b868f'
+            backgroundColor: '#0a7078'
           },
           {
             label: "Athletes",
@@ -40,7 +48,8 @@ export class CountryChartComponent implements OnChanges {
         ]
       },
       options: {
-        aspectRatio: 3,
+        responsive: true,
+        maintainAspectRatio: false,
         plugins: {
           tooltip: {
             callbacks: {
@@ -53,5 +62,9 @@ export class CountryChartComponent implements OnChanges {
         }
       }
     });
+  }
+
+  ngOnDestroy() {
+    this.lineChart?.destroy();
   }
 }
