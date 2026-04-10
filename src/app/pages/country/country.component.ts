@@ -1,8 +1,19 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Olympic} from "../../models/olympic.model";
-import {DataService} from "../../services/data.service";
-import {StatLine} from "../../models/statline.model";
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
+import { Olympic } from "../../models/olympic.model";
+import { DataService } from "../../services/data.service";
+import { StatLine } from "../../models/statline.model";
+
+interface CountryData {
+  titlePage: string;
+  stats: StatLine[];
+  years: number[];
+  medals: string[];
+  athletes: string[];
+  cities: string[];
+}
 
 @Component({
   selector: 'app-country',
@@ -11,39 +22,38 @@ import {StatLine} from "../../models/statline.model";
 })
 
 export class CountryComponent implements OnInit {
-  public titlePage: string = '';
-  public stats: StatLine[] = [];
-  public years: number[] = [];
-  public medals: string[] = [];
-  public athletes: string[] = [];
-  public cities: string[] = [];
-  public loading = true;
-
   private _route = inject(ActivatedRoute);
   private _router = inject(Router);
   private _dataService = inject(DataService);
 
+  public loading$: Observable<boolean> = this._dataService.getLoading();
+  public countryData$!: Observable<CountryData | null>;
+
   ngOnInit() {
     const countryId = +this._route.snapshot.params['countryId'];
-    this._dataService.getLoading().subscribe((loading) => this.loading = loading);
-    this._dataService.getOlympics().subscribe((data: Olympic[]) => {
-      if (data && data.length > 0) {
+    this.countryData$ = this._dataService.getOlympics().pipe(
+      map((data: Olympic[]) => {
+        if (!data || data.length === 0) {
+          return null;
+        }
         const country = data.find((o) => o.id === countryId);
         if (!country) {
           this._router.navigate(['not-found']);
-          return;
+          return null;
         }
-        this.titlePage = country.country;
-        this.cities = country.participations.map((p) => p.city);
-        this.years = country.participations.map((p) => p.year);
-        this.medals = country.participations.map((p) => p.medalsCount.toString());
-        this.athletes = country.participations.map((p) => p.athleteCount.toString());
-        this.stats = this.buildStats(country);
-      }
-    });
+        return {
+          titlePage: country.country,
+          cities: country.participations.map((p) => p.city),
+          years: country.participations.map((p) => p.year),
+          medals: country.participations.map((p) => p.medalsCount.toString()),
+          athletes: country.participations.map((p) => p.athleteCount.toString()),
+          stats: this._buildStats(country),
+        };
+      })
+    );
   }
 
-  buildStats(data: Olympic): StatLine[] {
+  private _buildStats(data: Olympic): StatLine[] {
     return [
       {
         title: "Total of entries",

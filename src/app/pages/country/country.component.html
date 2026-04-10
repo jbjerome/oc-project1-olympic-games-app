@@ -1,21 +1,23 @@
 <app-top-bar buttonText="< Go back" buttonRoute="/" />
-@if (loading) {
+@if (loading$ | async) {
   <app-loader />
 } @else {
-  <div class="page-grid">
-    <div class="sidebar">
-      <app-header [title]="titlePage" [stats]="stats" />
+  @if (countryData$ | async; as data) {
+    <div class="page-grid">
+      <div class="sidebar">
+        <app-header [title]="data.titlePage" [stats]="data.stats" />
+      </div>
+      <div class="main-content">
+        @if (data.medals.length > 0) {
+          <app-country-chart
+            [years]="data.years"
+            [medals]="data.medals"
+            [athletes]="data.athletes"
+            [cities]="data.cities" />
+        } @else {
+          <app-empty-state message="No data for this country" />
+        }
+      </div>
     </div>
-    <div class="main-content">
-      @if (medals.length > 0) {
-        <app-country-chart
-          [years]="years"
-          [medals]="medals"
-          [athletes]="athletes"
-          [cities]="cities" />
-      } @else {
-        <app-empty-state message="No data for this country" />
-      }
-    </div>
-  </div>
+  }
 }
