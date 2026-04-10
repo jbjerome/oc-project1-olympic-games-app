@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import { Olympic } from "../../models/olympic.model";
@@ -18,11 +18,12 @@ export class HomeComponent implements OnInit {
   public countryIds: number[] = [];
   public loading = true;
 
-  constructor(private router: Router, private dataService: DataService) {}
+  private _router = inject(Router);
+  private _dataService = inject(DataService);
 
   ngOnInit() {
-    this.dataService.getLoading().subscribe((loading) => this.loading = loading);
-    this.dataService.getOlympics().subscribe((data: Olympic[]) => {
+    this._dataService.getLoading().subscribe((loading) => this.loading = loading);
+    this._dataService.getOlympics().subscribe((data: Olympic[]) => {
       if (data && data.length > 0) {
         this.countries = data.map((i: any) => i.country);
         this.medals = data.map((o: Olympic) => o.participations.reduce((acc, p) => acc + p.medalsCount, 0));
@@ -40,6 +41,6 @@ export class HomeComponent implements OnInit {
   }
 
   onCountryClick(countryId: number): void {
-    this.router.navigate(['country', countryId]);
+    this._router.navigate(['country', countryId]);
   }
 }

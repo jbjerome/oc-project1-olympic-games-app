@@ -15,7 +15,7 @@ export class MedalChartComponent implements OnChanges, OnDestroy {
   @ViewChild('chartCanvas', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
 
   chartDescription = '';
-  private chart?: Chart<'pie', number[], string>;
+  private _chart?: Chart<'pie', number[], string>;
 
   ngOnChanges() {
     if (this.countries.length > 0 && this.medals.length > 0) {
@@ -24,8 +24,8 @@ export class MedalChartComponent implements OnChanges, OnDestroy {
   }
 
   buildPieChart() {
-    if (this.chart) {
-      this.chart.destroy();
+    if (this._chart) {
+      this._chart.destroy();
     }
     this.chartDescription = this.countries
       .map((country, i) => `${country}: ${this.medals[i]} médailles`)
@@ -56,10 +56,10 @@ export class MedalChartComponent implements OnChanges, OnDestroy {
         }
       }
     });
-    this.chart = chart;
+    this._chart = chart;
   }
 
   ngOnDestroy() {
-    this.chart?.destroy();
+    this._chart?.destroy();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { DataService } from './services/data.service';
 
 @Component({
@@ -6,9 +6,9 @@ import { DataService } from './services/data.service';
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
-  constructor(private dataService: DataService) {}
+  private _dataService = inject(DataService);
 
   ngOnInit() {
-    this.dataService.loadInitialData().subscribe();
+    this._dataService.loadInitialData().subscribe();
   }
 }

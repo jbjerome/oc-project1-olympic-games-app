@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {Olympic} from "../../models/olympic.model";
 import {DataService} from "../../services/data.service";
@@ -19,20 +19,18 @@ export class CountryComponent implements OnInit {
   public cities: string[] = [];
   public loading = true;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private dataService: DataService
-  ) {}
+  private _route = inject(ActivatedRoute);
+  private _router = inject(Router);
+  private _dataService = inject(DataService);
 
   ngOnInit() {
-    const countryId = +this.route.snapshot.params['countryId'];
-    this.dataService.getLoading().subscribe((loading) => this.loading = loading);
-    this.dataService.getOlympics().subscribe((data: Olympic[]) => {
+    const countryId = +this._route.snapshot.params['countryId'];
+    this._dataService.getLoading().subscribe((loading) => this.loading = loading);
+    this._dataService.getOlympics().subscribe((data: Olympic[]) => {
       if (data && data.length > 0) {
         const country = data.find((o) => o.id === countryId);
         if (!country) {
-          this.router.navigate(['not-found']);
+          this._router.navigate(['not-found']);
           return;
         }
         this.titlePage = country.country;

@@ -15,7 +15,7 @@ export class CountryChartComponent implements OnChanges, OnDestroy {
   @ViewChild('chartCanvas', { static: true }) chartCanvas!: ElementRef<HTMLCanvasElement>;
 
   chartDescription = '';
-  private lineChart?: Chart<'bar', string[], number>;
+  private _lineChart?: Chart<'bar', string[], number>;
 
   ngOnChanges() {
     if (this.years.length > 0 && this.medals.length > 0) {
@@ -24,13 +24,13 @@ export class CountryChartComponent implements OnChanges, OnDestroy {
   }
 
   buildLineChart() {
-    if (this.lineChart) {
-      this.lineChart.destroy();
+    if (this._lineChart) {
+      this._lineChart.destroy();
     }
     this.chartDescription = this.years
       .map((year, i) => `${this.cities[i]} ${year}: ${this.medals[i]} médailles, ${this.athletes[i]} athlètes`)
       .join(', ');
-    this.lineChart = new Chart(this.chartCanvas.nativeElement, {
+    this._lineChart = new Chart(this.chartCanvas.nativeElement, {
       type: 'bar',
       data: {
         labels: this.years,
@@ -65,6 +65,6 @@ export class CountryChartComponent implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.lineChart?.destroy();
+    this._lineChart?.destroy();
   }
 }

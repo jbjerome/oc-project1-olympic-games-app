@@ -1,4 +1,4 @@
-import { Injectable, isDevMode } from '@angular/core';
+import { inject, Injectable, isDevMode } from '@angular/core';
 import {BehaviorSubject, Observable} from "rxjs";
 import {Olympic} from "../models/olympic.model";
 import {HttpClient} from "@angular/common/http";
@@ -9,36 +9,37 @@ import {catchError, delay, tap} from "rxjs/operators";
 })
 
 export class DataService {
-  private olympicUrl = './assets/mock/olympic.json';
-  private olympics$ = new BehaviorSubject<Olympic[]>([]);
-  private loading$ = new BehaviorSubject<boolean>(true);
+  private _olympicUrl = './assets/mock/olympic.json';
+  private _olympics$ = new BehaviorSubject<Olympic[]>([]);
+  private _loading$ = new BehaviorSubject<boolean>(true);
 
-  constructor(private http: HttpClient) {}
+  private _http = inject(HttpClient);
 
   loadInitialData(): Observable<Olympic[]> {
-    this.loading$.next(true);
-    return this.http.get<Olympic[]>(this.olympicUrl).pipe(
+    this._loading$.next(true);
+    return this._http.get<Olympic[]>(this._olympicUrl).pipe(
+      // Simulate delay for loading data
       delay(500),
       tap((data) => {
-        this.olympics$.next(data);
-        this.loading$.next(false);
+        this._olympics$.next(data);
+        this._loading$.next(false);
       }),
       catchError((error) => {
         if (isDevMode()) {
           console.error('Error loading olympic data', error);
         }
-        this.olympics$.next([]);
-        this.loading$.next(false);
+        this._olympics$.next([]);
+        this._loading$.next(false);
         return [];
       })
     );
   }
 
   getOlympics(): Observable<Olympic[]> {
-    return this.olympics$.asObservable();
+    return this._olympics$.asObservable();
   }
 
   getLoading(): Observable<boolean> {
-    return this.loading$.asObservable();
+    return this._loading$.asObservable();
   }
 }
