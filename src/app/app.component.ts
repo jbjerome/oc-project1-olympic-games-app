@@ -1,4 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, DestroyRef, inject, OnInit} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { DataService } from './services/data.service';
 
 @Component({
@@ -7,8 +8,9 @@ import { DataService } from './services/data.service';
 })
 export class AppComponent implements OnInit {
   private _dataService = inject(DataService);
+  private _destroyRef = inject(DestroyRef);
 
   ngOnInit() {
-    this._dataService.loadInitialData().subscribe();
+    this._dataService.loadInitialData().pipe(takeUntilDestroyed(this._destroyRef)).subscribe();
   }
 }
